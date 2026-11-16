@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <met포켓몬$0a charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>태초 포켓몬 마을 ·  가족 대시보드</title>
+    <title>태초 포켓몬 마을 · 가족 대시보드</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -94,19 +94,186 @@
     <div id="app-shell" class="min-h-screen flex flex-col justify-between relative">
 
         <!-- 1. 고화질 2.5D 아이소메트릭 동화책 수채화 포켓몬 마을 일러스트 배경 -->
-        <div id="village-bg-container" class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#f5ebd6]">
-            <!-- 실제 수채화 일러스트 이미지 레이어 -->
-            <img id="village-ai-artwork" alt="수채화 포켓몬 마을 일러스트" class="hidden w-full h-full object-cover object-center transition-opacity duration-700 opacity-0" />
+        <div id="village-bg-container" class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#f4e8cf]">
+            <!-- 0.01초 즉시 렌더링되는 2.5D 아이소메트릭 수채화 포켓몬 마을 광장 베이스 일러스트 -->
+            <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" class="w-full h-full">
+                <defs>
+                    <radialGradient id="villageSunGlow" cx="50%" cy="48%" r="65%">
+                        <stop offset="0%" stop-color="#fffdf8"/>
+                        <stop offset="55%" stop-color="#f5e7cb"/>
+                        <stop offset="100%" stop-color="#e5d0aa"/>
+                    </radialGradient>
+                    <pattern id="plazaTilePat" width="36" height="22" patternUnits="userSpaceOnUse">
+                        <path d="M18,0 L36,11 L18,22 L0,11 Z" fill="none" stroke="#c8b392" stroke-width="1" opacity="0.55"/>
+                    </pattern>
+                    <filter id="softWatercolor" x="-5%" y="-5%" width="110%" height="110%">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" result="noise"/>
+                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5" xChannelSelector="R" yChannelSelector="G"/>
+                    </filter>
+                </defs>
 
-            <!-- 수채화 일러스트 생성 중 따뜻한 안내 오버레이 -->
-            <div id="village-art-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#fbf3e2] via-[#f4e4c7] to-[#e6d1ab]">
-                <div class="bg-white/90 border-4 border-slate-900 rounded-3xl px-6 py-4 retro-box flex items-center gap-3">
-                    <span class="text-3xl animate-bounce">🎨</span>
-                    <div>
-                        <div class="font-poke text-lg text-slate-900">동화책 수채화 포켓몬 마을 그리는 중...</div>
-                        <div class="text-xs font-bold text-slate-600">잠시만 기다리면 따뜻한 수채화 일러스트 마을이 완성돼요!</div>
-                    </div>
-                </div>
+                <!-- 따뜻한 수채화 대지 & 잔디 언덕 -->
+                <rect width="1440" height="900" fill="url(#villageSunGlow)"/>
+                <g filter="url(#softWatercolor)" opacity="0.72">
+                    <ellipse cx="140" cy="780" rx="260" ry="150" fill="#cfe5b2"/>
+                    <ellipse cx="1310" cy="760" rx="280" ry="160" fill="#cfe5b2"/>
+                    <ellipse cx="1290" cy="180" rx="240" ry="130" fill="#d7eab8"/>
+                    <ellipse cx="160" cy="210" rx="220" ry="120" fill="#d7eab8"/>
+                </g>
+
+                <!-- 대각선 아이소메트릭 마을 도로 & 인도 -->
+                <g stroke="#6b5b4b" stroke-width="2.2" stroke-linejoin="round">
+                    <polygon points="720,175 1440,565 1440,735 720,345 0,735 0,565" fill="#e6d7be"/>
+                    <polygon points="720,345 1440,735 1230,860 720,585 210,860 0,735" fill="#ede0c9"/>
+                    <polygon points="720,195 1440,585 1440,715 720,325 0,715 0,585" fill="#d5c6ad" stroke="none"/>
+                    <polygon points="720,585 1210,850 1040,900 720,725 400,900 230,850" fill="#d5c6ad" stroke="none"/>
+                </g>
+
+                <!-- 대각선 횡단보도 줄무늬 (4방향) -->
+                <g fill="#fffdf9" stroke="#7c6c5b" stroke-width="1.4" opacity="0.92">
+                    <!-- 좌상 횡단보도 -->
+                    <polygon points="445,355 475,338 505,354 475,371"/><polygon points="485,377 515,360 545,376 515,393"/>
+                    <polygon points="525,399 555,382 585,398 555,415"/><polygon points="565,421 595,404 625,420 595,437"/>
+                    <!-- 우상 횡단보도 -->
+                    <polygon points="845,421 875,404 905,420 875,437"/><polygon points="885,399 915,382 945,398 915,415"/>
+                    <polygon points="925,377 955,360 985,376 955,393"/><polygon points="965,355 995,338 1025,354 995,371"/>
+                    <!-- 좌하 횡단보도 -->
+                    <polygon points="445,695 475,678 505,694 475,711"/><polygon points="485,673 515,656 545,672 515,689"/>
+                    <polygon points="525,651 555,634 585,650 555,667"/><polygon points="565,629 595,612 625,628 595,645"/>
+                    <!-- 우하 횡단보도 -->
+                    <polygon points="845,629 875,612 905,628 875,645"/><polygon points="885,651 915,634 945,650 915,667"/>
+                    <polygon points="925,673 955,656 985,672 955,689"/><polygon points="965,695 995,678 1025,694 995,711"/>
+                </g>
+
+                <!-- 좌상단 파란 지붕 MART 건물 -->
+                <g transform="translate(310, 120)" stroke="#4a3f35" stroke-width="2.2" stroke-linejoin="round">
+                    <polygon points="0,120 145,45 275,115 130,190" fill="#f9eed7"/>
+                    <polygon points="0,120 130,190 130,275 0,205" fill="#ebd9b9"/>
+                    <polygon points="130,190 275,115 275,200 130,275" fill="#dfc9a4"/>
+                    <!-- 파란 지붕 & 간판 -->
+                    <polygon points="-12,115 145,32 290,110 130,192" fill="#5da9e9"/>
+                    <polygon points="145,32 290,110 275,122 145,50" fill="#3b82c4"/>
+                    <rect x="165" y="128" width="84" height="28" rx="6" transform="skewY(-26)" fill="#2563eb"/>
+                    <text x="206" y="147" transform="skewY(-26)" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900" stroke="none">MART</text>
+                    <!-- 쇼윈도 -->
+                    <polygon points="150,205 195,182 195,235 150,258" fill="#bae6fd"/>
+                    <polygon points="210,174 255,151 255,204 210,227" fill="#bae6fd"/>
+                </g>
+
+                <!-- 중앙 상단 민트 지붕 타운하우스 -->
+                <g transform="translate(565, 65)" stroke="#4a3f35" stroke-width="2.2" stroke-linejoin="round">
+                    <polygon points="0,105 135,38 270,105 135,172" fill="#9fd8cb"/>
+                    <polygon points="15,112 135,172 135,255 15,195" fill="#f7ebd2"/>
+                    <polygon points="135,172 255,112 255,195 135,255" fill="#ead8b6"/>
+                    <circle cx="135" cy="105" r="18" fill="#e0f2fe"/>
+                    <polygon points="112,188 158,188 158,242 112,242" fill="#9a6b43"/>
+                </g>
+
+                <!-- 우상단 따뜻한 테라코타 지붕 BAKERY & 카페 테라스 -->
+                <g transform="translate(885, 110)" stroke="#4a3f35" stroke-width="2.2" stroke-linejoin="round">
+                    <polygon points="0,115 155,35 315,115 160,195" fill="#d97757"/>
+                    <polygon points="15,122 160,195 160,295 15,222" fill="#f9eed7"/>
+                    <polygon points="160,195 300,122 300,222 160,295" fill="#ebd9b9"/>
+                    <rect x="202" y="168" width="76" height="24" rx="5" transform="skewY(-26)" fill="#78350f"/>
+                    <text x="240" y="184" transform="skewY(-26)" text-anchor="middle" fill="#fef3c7" font-size="11" font-weight="900" stroke="none">BAKERY</text>
+                    <polygon points="55,175 105,200 105,248 55,223" fill="#bae6fd"/>
+                    <polygon points="185,205 235,180 235,228 185,253" fill="#bae6fd"/>
+                </g>
+
+                <!-- 야외 몬스터볼 파라솔 카페 테이블 (우측 광장 옆) -->
+                <g transform="translate(1070, 420)" stroke="#4a3f35" stroke-width="2">
+                    <ellipse cx="0" cy="48" rx="44" ry="22" fill="#e9d8ba"/>
+                    <line x1="0" y1="0" x2="0" y2="48" stroke-width="3"/>
+                    <ellipse cx="0" cy="44" rx="22" ry="11" fill="#fffdf7"/>
+                    <path d="M-46,6 C-46,-26 46,-26 46,6 Z" fill="#ef4444"/>
+                    <path d="M-46,6 C-22,14 22,14 46,6 L30,-4 C12,2 -12,2 -30,-4 Z" fill="#ffffff"/>
+                    <circle cx="0" cy="4" r="6" fill="#ffffff"/>
+                </g>
+                <g transform="translate(1245, 515)" stroke="#4a3f35" stroke-width="2">
+                    <ellipse cx="0" cy="48" rx="44" ry="22" fill="#e9d8ba"/>
+                    <line x1="0" y1="0" x2="0" y2="48" stroke-width="3"/>
+                    <ellipse cx="0" cy="44" rx="22" ry="11" fill="#fffdf7"/>
+                    <path d="M-46,6 C-46,-26 46,-26 46,6 Z" fill="#ef4444"/>
+                    <path d="M-46,6 C-22,14 22,14 46,6 L30,-4 C12,2 -12,2 -30,-4 Z" fill="#ffffff"/>
+                    <circle cx="0" cy="4" r="6" fill="#ffffff"/>
+                </g>
+
+                <!-- 중앙 마름모 돌바닥 광장 -->
+                <g stroke="#5c4e41" stroke-width="2.5" stroke-linejoin="round">
+                    <polygon points="720,355 1045,530 720,705 395,530" fill="#f7eedc"/>
+                    <polygon points="720,355 1045,530 720,705 395,530" fill="url(#plazaTilePat)" stroke="none"/>
+                </g>
+
+                <!-- 광장 4면 직사각형 꽃 화단 & 나무 벤치 -->
+                <g stroke="#4a3f35" stroke-width="2" stroke-linejoin="round">
+                    <!-- 좌상 화단 -->
+                    <polygon points="505,485 655,405 680,418 530,498" fill="#8d5b3c"/>
+                    <polygon points="512,482 652,408 672,418 532,492" fill="#7cb342"/>
+                    <circle cx="555" cy="468" r="5" fill="#f43f5e"/><circle cx="595" cy="447" r="5" fill="#facc15"/><circle cx="635" cy="426" r="5" fill="#a855f7"/>
+                    <!-- 우상 화단 -->
+                    <polygon points="785,405 935,485 910,498 760,418" fill="#8d5b3c"/>
+                    <polygon points="788,408 928,482 908,492 768,418" fill="#7cb342"/>
+                    <circle cx="810" cy="426" r="5" fill="#facc15"/><circle cx="850" cy="447" r="5" fill="#f43f5e"/><circle cx="890" cy="468" r="5" fill="#38bdf8"/>
+                    <!-- 좌하 화단 -->
+                    <polygon points="505,575 655,655 680,642 530,562" fill="#8d5b3c"/>
+                    <polygon points="512,578 652,652 672,642 532,568" fill="#7cb342"/>
+                    <circle cx="555" cy="592" r="5" fill="#38bdf8"/><circle cx="595" cy="613" r="5" fill="#f43f5e"/><circle cx="635" cy="634" r="5" fill="#facc15"/>
+                    <!-- 우하 화단 -->
+                    <polygon points="785,655 935,575 910,562 760,642" fill="#8d5b3c"/>
+                    <polygon points="788,652 928,578 908,568 768,642" fill="#7cb342"/>
+                    <circle cx="810" cy="634" r="5" fill="#a855f7"/><circle cx="850" cy="613" r="5" fill="#facc15"/><circle cx="890" cy="592" r="5" fill="#f43f5e"/>
+
+                    <!-- 광장 나무 벤치 4개 -->
+                    <polygon points="575,495 625,468 637,475 587,502" fill="#c27d42"/>
+                    <polygon points="815,468 865,495 853,502 803,475" fill="#c27d42"/>
+                    <polygon points="575,565 625,592 637,585 587,558" fill="#c27d42"/>
+                    <polygon points="815,592 865,565 853,558 803,585" fill="#c27d42"/>
+                </g>
+
+                <!-- 중앙 몬스터볼 분수대 & 잔잔한 물결 -->
+                <g transform="translate(720, 525)" stroke="#4a3f35" stroke-width="2.2">
+                    <ellipse cx="0" cy="14" rx="92" ry="48" fill="#d6cbb8"/>
+                    <ellipse cx="0" cy="10" rx="80" ry="40" fill="#8ecae6"/>
+                    <ellipse cx="0" cy="10" rx="60" ry="29" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="10 6" class="animate-water"/>
+                    <!-- 분수 기둥 & 중간 수반 -->
+                    <rect x="-14" y="-26" width="28" height="36" rx="6" fill="#e5dccb"/>
+                    <ellipse cx="0" cy="-24" rx="44" ry="20" fill="#bae6fd"/>
+                    <!-- 꼭대기 몬스터볼 조각상 -->
+                    <circle cx="0" cy="-54" r="24" fill="#ffffff"/>
+                    <path d="M-24,-54 A24,24 0 0,1 24,-54 Z" fill="#ef4444"/>
+                    <line x1="-24" y1="-54" x2="24" y2="-54" stroke-width="3"/>
+                    <circle cx="0" cy="-54" r="6" fill="#ffffff" stroke-width="2.5"/>
+                </g>
+
+                <!-- 광장 주변 아기자기한 NPC 포켓몬 (이상해씨 · 치코리타) & 수채화 나무 -->
+                <g transform="translate(615, 558)" stroke="#3f3f46" stroke-width="1.8">
+                    <ellipse cx="0" cy="6" rx="14" ry="11" fill="#6ee7b7"/>
+                    <circle cx="0" cy="-4" r="10" fill="#34d399"/>
+                    <circle cx="-6" cy="5" r="2" fill="#1e293b"/>
+                </g>
+                <g transform="translate(825, 512)" stroke="#3f3f46" stroke-width="1.8">
+                    <ellipse cx="0" cy="6" rx="11" ry="13" fill="#bef264"/>
+                    <path d="M0,-7 Q12,-20 18,-10 Q8,-4 0,-7 Z" fill="#4ade80"/>
+                </g>
+                <g transform="translate(1285, 360)" stroke="#4a3f35" stroke-width="2">
+                    <rect x="-7" y="18" width="14" height="32" rx="4" fill="#9a6b43"/>
+                    <circle cx="0" cy="0" r="34" fill="#95d5b2"/>
+                    <circle cx="-14" cy="-8" r="20" fill="#b7e4c7" stroke="none"/>
+                </g>
+                <g transform="translate(155, 420)" stroke="#4a3f35" stroke-width="2">
+                    <rect x="-7" y="18" width="14" height="32" rx="4" fill="#9a6b43"/>
+                    <circle cx="0" cy="0" r="36" fill="#95d5b2"/>
+                    <circle cx="-14" cy="-8" r="21" fill="#b7e4c7" stroke="none"/>
+                </g>
+            </svg>
+
+            <!-- 사용자 village-bg.jpg 또는 AI 수채화 일러스트 오버레이 (존재할 경우 자동 표시) -->
+            <img id="village-ai-artwork" src="./village-bg.jpg" onerror="this.onerror=null; window.loadCachedVillageArt && window.loadCachedVillageArt();" alt="수채화 포켓몬 마을 일러스트" class="hidden absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300" />
+
+            <!-- 우측 상단 작은 상태 뱃지 (화면 전체를 가리지 않음) -->
+            <div id="village-art-loading" class="hidden fixed bottom-12 right-4 z-30 bg-white/90 border-2 border-slate-900 rounded-full px-3 py-1 shadow-md flex items-center gap-1.5 text-[11px] font-black text-slate-800">
+                <span class="animate-spin">🎨</span>
+                <span>수채화 마을 배경 불러오는 중...</span>
             </div>
         </div>
 
@@ -2126,6 +2293,18 @@
         // ==========================================
         // 10. 수채화 마을 일러스트 생성, 실시간 시계 & 초기 렌더링 실행
         // ==========================================
+        window.loadCachedVillageArt = function() {
+            const imgEl = document.getElementById('village-ai-artwork');
+            if (!imgEl) return;
+            try {
+                const cached = localStorage.getItem('poke_village_watercolor_art_v2');
+                if (cached) {
+                    imgEl.src = cached;
+                    imgEl.classList.remove('hidden', 'opacity-0');
+                }
+            } catch (e) {}
+        };
+
         async function generateWatercolorVillageArtwork(forceRefresh = false) {
             const imgEl = document.getElementById('village-ai-artwork');
             const loadingEl = document.getElementById('village-art-loading');
@@ -2134,62 +2313,58 @@
 
             const cacheKey = 'poke_village_watercolor_art_v2';
             if (!forceRefresh) {
-                try {
-                    const cached = localStorage.getItem(cacheKey);
-                    if (cached) {
-                        imgEl.src = cached;
-                        imgEl.classList.remove('hidden');
-                        requestAnimationFrame(() => imgEl.classList.remove('opacity-0'));
-                        loadingEl.classList.add('hidden');
-                        return;
-                    }
-                } catch (e) {}
+                window.loadCachedVillageArt();
+                return;
             }
 
+            // 화면 전체를 막지 않고 우측 하단 작은 배지만 표시
             loadingEl.classList.remove('hidden');
             if (regenBtn) regenBtn.disabled = true;
 
-            const prompt = "A cozy 2.5D isometric storybook watercolor and ink illustration of a charming Pokemon-inspired town square, hand-drawn soft pastel watercolor palette on warm cream paper texture, delicate brown ink outlines. In the center is a diamond-shaped cobblestone plaza with a two-tier stone Pokeball fountain, four rectangular wooden flower beds filled with pink and yellow blossoms, wooden park benches, classic street lamps, and cute tiny Bulbasaur, Chikorita, and Eevee relaxing. Diagonal crosswalk streets intersect around the plaza. Surrounding buildings include a blue-roofed MART shop on the upper left, a mint-roofed greenhouse house in the top center, and warm terracotta-roofed European townhouses with a BAKERY and outdoor red-and-white Pokeball parasol cafe tables on the right. Soft sunlit atmosphere, no UI text overlays, high-detail hand-painted anime game background art.";
-
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=${apiKey}`;
-            const payload = {
-                contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                generationConfig: {
-                    responseModalities: ['IMAGE'],
-                    imageConfig: { aspectRatio: "16:9" }
+            try {
+                const apiKey = "";
+                const promptText = "2.5D isometric storybook watercolor and fine ink illustration of a cozy Pokemon village town square, central diamond cobblestone plaza with a Pokeball fountain, four rectangular flower beds, wooden benches, crosswalks, blue roof MART, mint greenhouse, bakery cafe with Pokeball parasols, warm pastel cream and sunny palette, high detail, no text overlays";
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: promptText }] }]
+                    })
+                });
+                if (!response.ok) throw new Error('Image API unavailable');
+                const data = await response.json();
+                const part = data?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+                if (part?.inlineData?.data) {
+                    const rawDataUrl = `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
+                    const compressedUrl = await compressArtworkDataUrl(rawDataUrl);
+                    try { localStorage.setItem(cacheKey, compressedUrl); } catch (e) {}
+                    imgEl.src = compressedUrl;
+                    imgEl.classList.remove('hidden', 'opacity-0');
                 }
-            };
-
-            const delays = [1000, 2000, 4000];
-            for (let attempt = 0; attempt <= delays.length; attempt++) {
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!response.ok) throw new Error('HTTP ' + response.status);
-                    const result = await response.json();
-                    const part = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
-                    if (part && part.inlineData?.data) {
-                        const dataUrl = `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
-                        imgEl.src = dataUrl;
-                        imgEl.classList.remove('hidden');
-                        requestAnimationFrame(() => imgEl.classList.remove('opacity-0'));
-                        loadingEl.classList.add('hidden');
-                        try { localStorage.setItem(cacheKey, dataUrl); } catch (e) {}
-                        if (regenBtn) regenBtn.disabled = false;
-                        return;
-                    }
-                } catch (err) {
-                    if (attempt < delays.length) {
-                        await new Promise(r => setTimeout(r, delays[attempt]));
-                    }
-                }
+            } catch (err) {
+                console.warn('수채화 배경 생성 건너뜀:', err);
+            } finally {
+                loadingEl.classList.add('hidden');
+                if (regenBtn) regenBtn.disabled = false;
             }
+        }
 
-            if (regenBtn) regenBtn.disabled = false;
+        function compressArtworkDataUrl(dataUrl) {
+            return new Promise(resolve => {
+                const tempImg = new Image();
+                tempImg.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const maxW = 1280;
+                    const scale = Math.min(1, maxW / tempImg.width);
+                    canvas.width = Math.round(tempImg.width * scale);
+                    canvas.height = Math.round(tempImg.height * scale);
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(tempImg, 0, 0, canvas.width, canvas.height);
+                    resolve(canvas.toDataURL('image/jpeg', 0.82));
+                };
+                tempImg.onerror = () => resolve(dataUrl);
+                tempImg.src = dataUrl;
+            });
         }
 
         function updateLiveClock() {
@@ -2209,7 +2384,11 @@
             updateAllSummaryOverlays();
             initVillageWalkers();
             setActiveView('home');
-            generateWatercolorVillageArtwork(false);
+            const bgImg = document.getElementById('village-ai-artwork');
+            if (bgImg) {
+                bgImg.onload = () => bgImg.classList.remove('hidden', 'opacity-0');
+            }
+            window.loadCachedVillageArt();
         });
     </script>
 </body>
