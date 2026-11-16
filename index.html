@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
+    <met포켓몬$0a charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>태초 포켓몬 마을 · 우리 가족 대시보드</title>
+    <title>태초 포켓몬 마을 ·  가족 대시보드</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -93,218 +93,21 @@
 <body class="bg-[#efe4d0] text-slate-900 min-h-screen flex flex-col justify-between relative">
     <div id="app-shell" class="min-h-screen flex flex-col justify-between relative">
 
-        <!-- 1. 2.5D 아이소메트릭 손그림 수채화 포켓몬 마을 배경 (고화질 디오라마 + AI 일러스트 자동 오버레이) -->
-        <div id="village-bg-container" class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#efe4d0]">
-            <!-- 기본 내장 고밀도 2.5D 아이소메트릭 손그림 일러스트 SVG (GitHub/오프라인에서도 100% 즉시 표시) -->
-            <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" class="w-full h-full">
-                <defs>
-                    <linearGradient id="warmPaperGround" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#f7eedc"/>
-                        <stop offset="50%" stop-color="#ede0c9"/>
-                        <stop offset="100%" stop-color="#e3d3b8"/>
-                    </linearGradient>
-                    <linearGradient id="plazaCreamStone" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#fcf8f0"/>
-                        <stop offset="100%" stop-color="#ecdec7"/>
-                    </linearGradient>
-                    <linearGradient id="roadCobble" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#e5d7c1"/>
-                        <stop offset="100%" stop-color="#d4c4aa"/>
-                    </linearGradient>
-                    <pattern id="plazaDiamondTiles" width="44" height="26" patternUnits="userSpaceOnUse">
-                        <path d="M22,0 L44,13 L22,26 L0,13 Z" fill="none" stroke="#c8b69a" stroke-width="1.2"/>
-                    </pattern>
-                    <pattern id="walkwayGrid" width="26" height="16" patternUnits="userSpaceOnUse">
-                        <path d="M13,0 L26,8 L13,16 L0,8 Z" fill="none" stroke="#ccbba2" stroke-width="0.85"/>
-                    </pattern>
-                </defs>
+        <!-- 1. 고화질 2.5D 아이소메트릭 동화책 수채화 포켓몬 마을 일러스트 배경 -->
+        <div id="village-bg-container" class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#f5ebd6]">
+            <!-- 실제 수채화 일러스트 이미지 레이어 -->
+            <img id="village-ai-artwork" alt="수채화 포켓몬 마을 일러스트" class="hidden w-full h-full object-cover object-center transition-opacity duration-700 opacity-0" />
 
-                <!-- 따뜻한 수채화 대지 & 보도블록 패턴 -->
-                <rect width="1440" height="900" fill="url(#warmPaperGround)"/>
-                <rect width="1440" height="900" fill="url(#walkwayGrid)" opacity="0.5"/>
-
-                <!-- 모서리 연두색 풀밭 공원 구역 -->
-                <polygon points="0,0 360,0 0,240" fill="#cfe4a6" stroke="#6c5844" stroke-width="2.5"/>
-                <polygon points="1440,0 1120,0 1440,210" fill="#cfe4a6" stroke="#6c5844" stroke-width="2.5"/>
-                <polygon points="0,900 320,900 0,715" fill="#c7df9b" stroke="#6c5844" stroke-width="2.5"/>
-                <polygon points="1440,900 1130,900 1440,720" fill="#c7df9b" stroke="#6c5844" stroke-width="2.5"/>
-
-                <!-- 대각선 아이소메트릭 사거리 도로 -->
-                <polygon points="-40,565 545,235 675,310 65,675" fill="url(#roadCobble)" stroke="#6e5b47" stroke-width="3"/>
-                <polygon points="795,235 1480,625 1375,710 685,310" fill="url(#roadCobble)" stroke="#6e5b47" stroke-width="3"/>
-                <polygon points="145,910 675,585 795,655 315,940" fill="url(#roadCobble)" stroke="#6e5b47" stroke-width="3"/>
-                <polygon points="695,585 1255,910 1110,950 595,655" fill="url(#roadCobble)" stroke="#6e5b47" stroke-width="3"/>
-
-                <!-- 4방향 흰색 대각선 횡단보도 -->
-                <g fill="#fffdf8" stroke="#7d6954" stroke-width="1.6">
-                    <polygon points="455,325 488,307 504,316 471,334"/>
-                    <polygon points="479,339 512,321 528,330 495,348"/>
-                    <polygon points="503,353 536,335 552,344 519,362"/>
-                    <polygon points="527,367 560,349 576,358 543,376"/>
-
-                    <polygon points="905,312 938,330 922,339 889,321"/>
-                    <polygon points="881,326 914,344 898,353 865,335"/>
-                    <polygon points="857,340 890,358 874,367 841,349"/>
-                    <polygon points="833,354 866,372 850,381 817,363"/>
-
-                    <polygon points="475,665 508,647 524,656 491,674"/>
-                    <polygon points="499,679 532,661 548,670 515,688"/>
-                    <polygon points="523,693 556,675 572,684 539,702"/>
-                    <polygon points="547,707 580,689 596,698 563,716"/>
-
-                    <polygon points="915,648 948,666 932,675 899,657"/>
-                    <polygon points="891,662 924,680 908,689 875,671"/>
-                    <polygon points="867,676 900,694 884,703 851,685"/>
-                    <polygon points="843,690 876,708 860,717 827,699"/>
-                </g>
-
-                <!-- 중앙 마름모 돌바닥 몬스터볼 분수 광장 (샘플 중앙 구도) -->
-                <g transform="translate(720, 505)">
-                    <polygon points="0,-196 346,6 0,200 -346,6" fill="rgba(74, 59, 44, 0.16)"/>
-                    <polygon points="0,-188 334,0 0,188 -334,0" fill="url(#plazaCreamStone)" stroke="#685441" stroke-width="4"/>
-                    <polygon points="0,-174 312,0 0,174 -312,0" fill="url(#plazaDiamondTiles)" opacity="0.95"/>
-
-                    <!-- 4면 직사각형 꽃 화단 -->
-                    <g transform="translate(-148, -76) rotate(-29)">
-                        <rect x="-80" y="-19" width="160" height="38" rx="7" fill="#9a6b43" stroke="#3e2723" stroke-width="3"/>
-                        <rect x="-73" y="-13" width="146" height="26" rx="4" fill="#689f38"/>
-                        <circle cx="-50" cy="0" r="6" fill="#f472b6"/><circle cx="-22" cy="-3" r="5.5" fill="#facc15"/>
-                        <circle cx="8" cy="2" r="6" fill="#fb7185"/><circle cx="38" cy="-2" r="5.5" fill="#c084fc"/>
-                    </g>
-                    <g transform="translate(148, -76) rotate(29)">
-                        <rect x="-80" y="-19" width="160" height="38" rx="7" fill="#9a6b43" stroke="#3e2723" stroke-width="3"/>
-                        <rect x="-73" y="-13" width="146" height="26" rx="4" fill="#689f38"/>
-                        <circle cx="-46" cy="-2" r="5.5" fill="#facc15"/><circle cx="-15" cy="2" r="6" fill="#f472b6"/>
-                        <circle cx="18" cy="-2" r="5.5" fill="#60a5fa"/><circle cx="48" cy="1" r="6" fill="#fb7185"/>
-                    </g>
-                    <g transform="translate(-148, 80) rotate(29)">
-                        <rect x="-80" y="-19" width="160" height="38" rx="7" fill="#9a6b43" stroke="#3e2723" stroke-width="3"/>
-                        <rect x="-73" y="-13" width="146" height="26" rx="4" fill="#689f38"/>
-                        <circle cx="-48" cy="0" r="6" fill="#fb7185"/><circle cx="-16" cy="-2" r="5.5" fill="#facc15"/>
-                        <circle cx="15" cy="2" r="6" fill="#f472b6"/><circle cx="46" cy="-1" r="5.5" fill="#a78bfa"/>
-                    </g>
-                    <g transform="translate(148, 80) rotate(-29)">
-                        <rect x="-80" y="-19" width="160" height="38" rx="7" fill="#9a6b43" stroke="#3e2723" stroke-width="3"/>
-                        <rect x="-73" y="-13" width="146" height="26" rx="4" fill="#689f38"/>
-                        <circle cx="-46" cy="1" r="5.5" fill="#60a5fa"/><circle cx="-14" cy="-2" r="6" fill="#f472b6"/>
-                        <circle cx="18" cy="2" r="5.5" fill="#facc15"/><circle cx="48" cy="-1" r="6" fill="#fb7185"/>
-                    </g>
-
-                    <!-- 나무 벤치 4개 -->
-                    <g stroke="#3e2723" stroke-width="2.5">
-                        <g transform="translate(-96, -42) rotate(-29)">
-                            <rect x="-27" y="-10" width="54" height="14" rx="3" fill="#b45309"/>
-                            <rect x="-27" y="-18" width="54" height="8" rx="2" fill="#d97706"/>
-                        </g>
-                        <g transform="translate(96, -42) rotate(29)">
-                            <rect x="-27" y="-10" width="54" height="14" rx="3" fill="#b45309"/>
-                            <rect x="-27" y="-18" width="54" height="8" rx="2" fill="#d97706"/>
-                        </g>
-                        <g transform="translate(-96, 50) rotate(29)">
-                            <rect x="-27" y="-10" width="54" height="14" rx="3" fill="#b45309"/>
-                            <rect x="-27" y="-18" width="54" height="8" rx="2" fill="#d97706"/>
-                        </g>
-                        <g transform="translate(96, 50) rotate(-29)">
-                            <rect x="-27" y="-10" width="54" height="14" rx="3" fill="#b45309"/>
-                            <rect x="-27" y="-18" width="54" height="8" rx="2" fill="#d97706"/>
-                        </g>
-                    </g>
-
-                    <!-- 클래식 가로등 -->
-                    <g transform="translate(-202, 18)">
-                        <line x1="0" y1="0" x2="0" y2="-58" stroke="#1e293b" stroke-width="4"/>
-                        <polygon points="-10,-58 10,-58 7,-72 -7,-72" fill="#fef08a" stroke="#1e293b" stroke-width="2.5"/>
-                    </g>
-                    <g transform="translate(202, 18)">
-                        <line x1="0" y1="0" x2="0" y2="-58" stroke="#1e293b" stroke-width="4"/>
-                        <polygon points="-10,-58 10,-58 7,-72 -7,-72" fill="#fef08a" stroke="#1e293b" stroke-width="2.5"/>
-                    </g>
-
-                    <!-- 중앙 몬스터볼 2단 분수대 -->
-                    <ellipse cx="0" cy="14" rx="94" ry="54" fill="#d8cbb8" stroke="#4a3b2c" stroke-width="3.5"/>
-                    <ellipse cx="0" cy="10" rx="82" ry="45" fill="#81d4fa" stroke="#0284c7" stroke-width="2.5"/>
-                    <ellipse cx="0" cy="10" rx="66" ry="35" fill="none" stroke="#e1f5fe" stroke-width="2" stroke-dasharray="10 6" class="animate-water"/>
-                    <rect x="-16" y="-34" width="32" height="44" rx="8" fill="#e7decb" stroke="#4a3b2c" stroke-width="3"/>
-                    <ellipse cx="0" cy="-24" rx="45" ry="23" fill="#b3e5fc" stroke="#4a3b2c" stroke-width="3"/>
-                    <g transform="translate(0, -56)">
-                        <circle cx="0" cy="0" r="24" fill="#ffffff" stroke="#1e293b" stroke-width="3.5"/>
-                        <path d="M-24,0 A24,24 0 0,1 24,0 Z" fill="#ef4444" stroke="#1e293b" stroke-width="3.5"/>
-                        <line x1="-24" y1="0" x2="24" y2="0" stroke="#1e293b" stroke-width="4"/>
-                        <circle cx="0" cy="0" r="7" fill="#ffffff" stroke="#1e293b" stroke-width="3.5"/>
-                    </g>
-
-                    <!-- 광장 NPC 포켓몬 (이상해씨 · 치코리타 · 이브이) -->
-                    <g transform="translate(-114, 18)">
-                        <ellipse cx="0" cy="6" rx="14" ry="10" fill="#5eead4" stroke="#1e293b" stroke-width="2"/>
-                        <circle cx="-4" cy="-5" r="9" fill="#34d399" stroke="#1e293b" stroke-width="2"/>
-                        <circle cx="-11" cy="5" r="3" fill="#ef4444"/>
-                    </g>
-                    <g transform="translate(116, -12)">
-                        <ellipse cx="0" cy="6" rx="11" ry="13" fill="#bef264" stroke="#1e293b" stroke-width="2"/>
-                        <path d="M0,-7 Q14,-22 22,-12 Q10,-4 0,-7 Z" fill="#22c55e" stroke="#1e293b" stroke-width="2"/>
-                    </g>
-                    <g transform="translate(86, 26)">
-                        <ellipse cx="0" cy="6" rx="10" ry="11" fill="#d97706" stroke="#1e293b" stroke-width="2"/>
-                        <polygon points="-6,-4 -12,-18 -1,-8" fill="#b45309" stroke="#1e293b" stroke-width="1.8"/>
-                        <polygon points="6,-4 12,-18 1,-8" fill="#b45309" stroke="#1e293b" stroke-width="1.8"/>
-                    </g>
-                </g>
-
-                <!-- 좌상단 건물: 파란 지붕 프렌들리숍 (MART) -->
-                <g transform="translate(465, 190)">
-                    <polygon points="-98,35 0,-16 98,35 98,118 0,168 -98,118" fill="#fcfaf5" stroke="#4a3b2c" stroke-width="3.5"/>
-                    <polygon points="0,-16 98,35 98,118 0,168" fill="#ebe2d3" stroke="#4a3b2c" stroke-width="3.5"/>
-                    <polygon points="-108,32 0,-30 108,32 0,88" fill="#5dade2" stroke="#4a3b2c" stroke-width="3.5"/>
-                    <rect x="-48" y="42" width="66" height="24" rx="5" fill="#2874a6" stroke="#4a3b2c" stroke-width="2.5"/>
-                    <text x="-15" y="59" text-anchor="middle" fill="#ffffff" font-weight="900" font-size="14">MART</text>
-                    <rect x="-42" y="90" width="24" height="44" rx="3" fill="#d6eaf8" stroke="#4a3b2c" stroke-width="2.5"/>
-                    <rect x="24" y="88" width="32" height="28" rx="4" fill="#ebf5fb" stroke="#4a3b2c" stroke-width="2.5"/>
-                </g>
-
-                <!-- 중앙 상단 건물: 민트 지붕 온실 하우스 -->
-                <g transform="translate(715, 168)">
-                    <polygon points="-88,30 0,-18 88,30 88,108 0,152 -88,108" fill="#fdf8ec" stroke="#4a3b2c" stroke-width="3.5"/>
-                    <polygon points="0,-18 88,30 88,108 0,152" fill="#f3e5cc" stroke="#4a3b2c" stroke-width="3.5"/>
-                    <polygon points="-98,28 0,-34 98,28 0,80" fill="#a3d9a5" stroke="#4a3b2c" stroke-width="3.5"/>
-                    <circle cx="0" cy="24" r="14" fill="#e0f2fe" stroke="#4a3b2c" stroke-width="2.5"/>
-                    <rect x="-14" y="86" width="28" height="48" rx="4" fill="#8d5524" stroke="#4a3b2c" stroke-width="2.5"/>
-                </g>
-
-                <!-- 우상단 건물: 따뜻한 벽돌색 지붕 타운하우스 & BAKERY -->
-                <g transform="translate(1035, 215)">
-                    <polygon points="-112,42 0,-20 112,42 112,134 0,190 -112,134" fill="#fffaf0" stroke="#4a3b2c" stroke-width="3.5"/>
-                    <polygon points="0,-20 112,42 112,134 0,190" fill="#f2dec4" stroke="#4a3b2c" stroke-width="3.5"/>
-                    <polygon points="-122,38 0,-36 122,38 0,100" fill="#d98880" stroke="#4a3b2c" stroke-width="3.5"/>
-                    <rect x="34" y="54" width="62" height="22" rx="4" fill="#6e2c00" stroke="#4a3b2c" stroke-width="2"/>
-                    <text x="65" y="69" text-anchor="middle" fill="#fef3c7" font-weight="900" font-size="11">BAKERY</text>
-                    <rect x="-46" y="86" width="26" height="28" rx="4" fill="#e0f2fe" stroke="#4a3b2c" stroke-width="2.5"/>
-                    <rect x="-10" y="106" width="26" height="28" rx="4" fill="#e0f2fe" stroke="#4a3b2c" stroke-width="2.5"/>
-                </g>
-
-                <!-- 우측 야외 몬스터볼 파라솔 카페 2세트 -->
-                <g transform="translate(1065, 455)">
-                    <ellipse cx="0" cy="28" rx="34" ry="18" fill="#fef3c7" stroke="#4a3b2c" stroke-width="2.5"/>
-                    <line x1="0" y1="26" x2="0" y2="-28" stroke="#475569" stroke-width="4"/>
-                    <path d="M-46,-18 Q0,-56 46,-18 Z" fill="#ef4444" stroke="#4a3b2c" stroke-width="3"/>
-                    <path d="M-22,-18 Q0,-52 22,-18 Z" fill="#ffffff" stroke="#4a3b2c" stroke-width="2.5"/>
-                </g>
-                <g transform="translate(1265, 575)">
-                    <ellipse cx="0" cy="28" rx="34" ry="18" fill="#fef3c7" stroke="#4a3b2c" stroke-width="2.5"/>
-                    <line x1="0" y1="26" x2="0" y2="-28" stroke="#475569" stroke-width="4"/>
-                    <path d="M-46,-18 Q0,-56 46,-18 Z" fill="#ef4444" stroke="#4a3b2c" stroke-width="3"/>
-                    <path d="M-22,-18 Q0,-52 22,-18 Z" fill="#ffffff" stroke="#4a3b2c" stroke-width="2.5"/>
-                </g>
-
-                <!-- 마을 둥근 수채화 나무들 -->
-                <g stroke="#4a3b2c" stroke-width="2.5">
-                    <g transform="translate(350, 290)"><rect x="-6" y="14" width="12" height="22" fill="#8d5524"/><circle cx="0" cy="0" r="28" fill="#9ccc65"/><circle cx="-10" cy="-6" r="16" fill="#aed581" stroke="none"/></g>
-                    <g transform="translate(1225, 320)"><rect x="-6" y="14" width="12" height="22" fill="#8d5524"/><circle cx="0" cy="0" r="30" fill="#9ccc65"/><circle cx="-10" cy="-6" r="16" fill="#aed581" stroke="none"/></g>
-                    <g transform="translate(445, 745)"><rect x="-6" y="14" width="12" height="22" fill="#8d5524"/><circle cx="0" cy="0" r="28" fill="#9ccc65"/><circle cx="-10" cy="-6" r="16" fill="#aed581" stroke="none"/></g>
-                    <g transform="translate(995, 760)"><rect x="-6" y="14" width="12" height="22" fill="#8d5524"/><circle cx="0" cy="0" r="30" fill="#9ccc65"/><circle cx="-10" cy="-6" r="16" fill="#aed581" stroke="none"/></g>
-                </g>
-            </svg>
-            <!-- Gemini 3.1 Flash Image API가 연결된 환경일 경우 고화질 일러스트 이미지가 부드럽게 위에 겹쳐짐 -->
-            <img id="village-generated-img" alt="" class="hidden absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0"/>
+            <!-- 수채화 일러스트 생성 중 따뜻한 안내 오버레이 -->
+            <div id="village-art-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#fbf3e2] via-[#f4e4c7] to-[#e6d1ab]">
+                <div class="bg-white/90 border-4 border-slate-900 rounded-3xl px-6 py-4 retro-box flex items-center gap-3">
+                    <span class="text-3xl animate-bounce">🎨</span>
+                    <div>
+                        <div class="font-poke text-lg text-slate-900">동화책 수채화 포켓몬 마을 그리는 중...</div>
+                        <div class="text-xs font-bold text-slate-600">잠시만 기다리면 따뜻한 수채화 일러스트 마을이 완성돼요!</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 2. 우리 가족 4명 전신 포켓몬 산책 레이어 (말구름표 클릭 수정 가능) -->
@@ -328,19 +131,22 @@
                         <div class="flex items-center gap-1.5">
                             <span class="text-lg">☀️</span>
                             <span class="font-poke text-lg text-slate-900">12°</span>
-                            <span class="text-[11px] font-black bg-amber-300 border border-slate-800 px-1.5 py-0.5 rounded">모험하기 좋은 날!</span>
+                            <span class="bg-amber-300 border border-slate-800 rounded-md px-1.5 py-0.5 text-[10px] font-black text-slate-900">모험하기 좋은 날!</span>
                         </div>
-                        <div class="h-4 w-0.5 bg-slate-300"></div>
-                        <div class="flex items-center gap-2.5 text-[11px] font-bold text-slate-600">
+                        <div class="h-4 w-px bg-slate-300"></div>
+                        <div class="flex items-center gap-2 text-[11px] font-black text-slate-700">
                             <span>화 ☀️ 15°</span>
                             <span>수 ⛅ 14°</span>
                             <span>목 ☀️ 16°</span>
-                            <span>금 ⛅ 13°</span>
+                            <span>금 🌤️ 13°</span>
                         </div>
                     </div>
 
                     <button onclick="setActiveView('home')" class="bg-amber-100 hover:bg-amber-200 border-2 border-slate-900 rounded-xl px-3 py-1 text-xs font-black text-slate-900 flex items-center gap-1.5 transition">
                         <span>🏡 태초 포켓몬 마을</span>
+                    </button>
+                    <button id="regen-village-art-btn" onclick="generateWatercolorVillageArtwork(true)" class="bg-rose-100 hover:bg-rose-200 border-2 border-slate-900 rounded-xl px-2.5 py-1 text-xs font-black text-slate-900 flex items-center gap-1 transition" title="수채화 마을 일러스트 새로 그리기">
+                        <span>🎨 일러스트 다시 그리기</span>
                     </button>
                 </div>
             </div>
@@ -1059,10 +865,14 @@
         let mapPanOffset = { x: 0, y: 0 };
         let pendingPinCoords = null;
         let editingWalkerId = null;
-        const travelOverlayLayers = { mountain: true, heritage: true };
+        let travelOverlayLayers = { mountain: true, heritage: true };
 
-        const pokeBadges = ['⚡', '🔥', '💧', '🌿', '⭐', '🎀', '🔮'];
+        const villageNotice = {
+            text: '오늘 할 일 모두 완료하면 보너스 코인 +500원 추가 지급!',
+            bonusCoins: 500
+        };
 
+        const pokeBadges = ['⚡', '🔥', '💧', '🌿', '⭐', '🎀'];
         const dayOrder = [
             { key: 'mon', label: '월', fullLabel: '월요일' },
             { key: 'tue', label: '화', fullLabel: '화요일' },
@@ -1072,30 +882,21 @@
             { key: 'wknd', label: '주말', fullLabel: '토·일요일' }
         ];
 
-        const eunyulFaceSvg = `<svg viewBox="0 0 80 80" class="w-full h-full">
-            <path d="M22,36 L10,8 L32,24 Z" fill="#b45309" stroke="#1e293b" stroke-width="3"/>
-            <path d="M58,36 L70,8 L48,24 Z" fill="#b45309" stroke="#1e293b" stroke-width="3"/>
-            <circle cx="40" cy="46" r="24" fill="#d97706" stroke="#1e293b" stroke-width="3"/>
-            <path d="M22,58 Q40,72 58,58 Q50,68 40,68 Q30,68 22,58 Z" fill="#fef3c7"/>
-            <circle cx="32" cy="44" r="3.8" fill="#1e293b"/>
-            <circle cx="31" cy="42.5" r="1.3" fill="#ffffff"/>
-            <circle cx="48" cy="44" r="3.8" fill="#1e293b"/>
-            <circle cx="47" cy="42.5" r="1.3" fill="#ffffff"/>
-            <circle cx="25" cy="51" r="3.2" fill="#fb7185" opacity="0.8"/>
-            <circle cx="55" cy="51" r="3.2" fill="#fb7185" opacity="0.8"/>
-            <path d="M36,53 Q40,57 44,53" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
+        const eunyulFaceSvg = `<svg viewBox="0 0 64 64" class="w-full h-full">
+            <polygon points="14,26 8,6 26,18" fill="#d97706" stroke="#1e293b" stroke-width="3"/>
+            <polygon points="50,26 56,6 38,18" fill="#d97706" stroke="#1e293b" stroke-width="3"/>
+            <circle cx="32" cy="36" r="20" fill="#f59e0b" stroke="#1e293b" stroke-width="3"/>
+            <circle cx="25" cy="33" r="3" fill="#1e293b"/><circle cx="39" cy="33" r="3" fill="#1e293b"/>
+            <circle cx="20" cy="40" r="3.5" fill="#fb7185"/><circle cx="44" cy="40" r="3.5" fill="#fb7185"/>
+            <path d="M28,42 Q32,46 36,42" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
         </svg>`;
 
-        const eunjunFaceSvg = `<svg viewBox="0 0 80 80" class="w-full h-full">
-            <path d="M22,26 L12,6 L32,20 Z" fill="#1e293b" stroke="#0f172a" stroke-width="2.5"/>
-            <path d="M58,26 L68,6 L48,20 Z" fill="#1e293b" stroke="#0f172a" stroke-width="2.5"/>
-            <circle cx="40" cy="45" r="24" fill="#1e293b" stroke="#0f172a" stroke-width="3"/>
-            <path d="M28,28 L40,36 L52,28" fill="none" stroke="#38bdf8" stroke-width="3"/>
-            <polygon points="27,42 36,45 28,48" fill="#ef4444"/>
-            <polygon points="53,42 44,45 52,48" fill="#ef4444"/>
-            <path d="M18,50 Q10,46 14,40" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
-            <path d="M62,50 Q70,46 66,40" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
-            <path d="M32,56 L40,53 L48,56" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+        const eunjunFaceSvg = `<svg viewBox="0 0 64 64" class="w-full h-full">
+            <polygon points="18,22 12,6 28,16" fill="#1e293b" stroke="#0f172a" stroke-width="2.5"/>
+            <polygon points="46,22 52,6 36,16" fill="#1e293b" stroke="#0f172a" stroke-width="2.5"/>
+            <circle cx="32" cy="36" r="20" fill="#1e293b" stroke="#0f172a" stroke-width="3"/>
+            <circle cx="25" cy="33" r="3.2" fill="#38bdf8"/><circle cx="39" cy="33" r="3.2" fill="#38bdf8"/>
+            <path d="M27,43 Q32,47 37,43" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
         </svg>`;
 
         const kidsData = {
@@ -1104,6 +905,12 @@
                 partner: '이브이',
                 coinBalance: 1500,
                 allCompletedCelebrated: false,
+                todos: [
+                    { id: 1, text: '영어학원 단어장 10개 외우기', completed: true, rewarded: true, badge: '⚡' },
+                    { id: 2, text: '피아노 체르니 30분 연습하기', completed: false, rewarded: false, badge: '🎵' },
+                    { id: 3, text: '수학 문제집 2장 풀기', completed: false, rewarded: false, badge: '📘' },
+                    { id: 4, text: '자기 전 책 1권 읽고 도서관 기록하기', completed: false, rewarded: false, badge: '🦊' }
+                ],
                 academySchedule: {
                     mon: [{ id: 101, time: '16:30', title: '영어학원', icon: '🔤', done: false }],
                     tue: [
@@ -1114,248 +921,228 @@
                         { id: 104, time: '14:00', title: '눈높이 센터', icon: '✏️', done: false },
                         { id: 105, time: '16:30', title: '영어학원', icon: '🔤', done: false }
                     ],
-                    thu: [
-                        { id: 106, time: '14:00', title: '피아노', icon: '🎹', done: false },
-                        { id: 107, time: '17:40', title: '황소 수학', icon: '📐', done: false }
-                    ],
-                    fri: [
-                        { id: 108, time: '14:00', title: '눈높이 센터', icon: '✏️', done: false },
-                        { id: 109, time: '16:00', title: '바이올린', icon: '🎻', done: false },
-                        { id: 110, time: '19:00', title: '씨앗동화', icon: '📚', done: false }
-                    ],
+                    thu: [{ id: 106, time: '15:00', title: '피아노', icon: '🎹', done: false }],
+                    fri: [{ id: 107, time: '16:30', title: '영어학원', icon: '🔤', done: false }],
                     wknd: []
                 },
-                todos: [
-                    { id: 1, text: '학교 가방 정리하고 알림장 보여드리기', completed: true, rewarded: true, badge: '🎒' },
-                    { id: 2, text: '영어학원 숙제 & 단어 복습하기', completed: false, rewarded: false, badge: '📖' },
-                    { id: 3, text: '피아노 & 바이올린 20분 연습하기', completed: false, rewarded: false, badge: '🎵' },
-                    { id: 4, text: '자기 전 양치질하고 책 1권 읽기', completed: false, rewarded: false, badge: '✨' }
-                ],
                 books: [
-                    { id: 1, title: '마법의 시간여행 1권', author: '메리 폽 어즈번', date: '11/12', rating: '⭐⭐⭐⭐⭐' },
-                    { id: 2, title: '이상한 과자 가게 전천당', author: '히로시마 레이코', date: '11/15', rating: '⭐⭐⭐⭐⭐' }
+                    { id: 1, title: '마법천자문 58권', author: '올댓스토리', date: '11/12', rating: '⭐⭐⭐⭐⭐' },
+                    { id: 2, title: '흔한남매 과학 탐험대', author: '흔한남매', date: '11/14', rating: '⭐⭐⭐⭐⭐' }
                 ],
                 evolutions: [
-                    { minBooks: 0, name: 'Lv.1 이브이', emoji: '🦊', desc: '호기심 가득한 숲속의 파트너!' },
-                    { minBooks: 3, name: 'Lv.2 에브이', emoji: '🔮', desc: '지혜의 보석이 빛나는 태양 포켓몬!' },
-                    { minBooks: 6, name: 'Lv.3 님피아', emoji: '🎀', desc: '사랑과 다정함이 넘치는 페어리!' },
-                    { minBooks: 10, name: 'MAX 환상의 이브이 마스터', emoji: '👑', desc: '태초 마을 최고의 독서 챔피언!' }
+                    { minBooks: 0, name: '이브이 (Lv.1)', emoji: '🦊', desc: '호기심 가득한 파트너! 책을 읽으면 다양한 모습으로 진화해요.' },
+                    { minBooks: 3, name: '님피아 (Lv.2)', emoji: '🎀', desc: '따뜻한 마음과 독서 에너지가 모여 사랑스러운 님피아로 진화했어요!' },
+                    { minBooks: 6, name: '에브이 (Lv.3)', emoji: '🔮', desc: '지혜의 보석이 빛나는 전설의 독서 마스터 에브이!' }
                 ]
             },
             eunjun: {
                 name: '은준',
-                partner: '메가리자몽 X',
+                partner: '메가리자몽X',
                 coinBalance: 1200,
                 allCompletedCelebrated: false,
+                todos: [
+                    { id: 201, text: '눈높이 국어·수학 숙제 끝내기', completed: true, rewarded: true, badge: '🔥' },
+                    { id: 202, text: '수영 가방 스스로 챙기기', completed: false, rewarded: false, badge: '🏊' },
+                    { id: 203, text: '잠들기 전 책 1권 읽기', completed: false, rewarded: false, badge: '🐉' }
+                ],
                 academySchedule: {
                     mon: [
-                        { id: 201, time: '13:00', title: '눈높이 센터', icon: '✏️', done: false },
-                        { id: 202, time: '16:00', title: '두팍', icon: '⚽', done: false },
-                        { id: 203, time: '21:00', title: '블루라군 수영', icon: '🏊', done: false }
+                        { id: 301, time: '13:00', title: '눈높이 센터', icon: '✏️', done: false },
+                        { id: 302, time: '16:00', title: '두팍', icon: '🧩', done: false },
+                        { id: 303, time: '21:00', title: '블루라군 수영', icon: '🏊', done: false }
                     ],
-                    tue: [{ id: 204, time: '16:00', title: '두팍', icon: '⚽', done: false }],
-                    wed: [
-                        { id: 205, time: '15:00', title: '영어', icon: '🔤', done: false },
-                        { id: 206, time: '18:00', title: '씨앗동화', icon: '📚', done: false }
-                    ],
-                    thu: [{ id: 207, time: '17:00', title: '두팍', icon: '⚽', done: false }],
-                    fri: [
-                        { id: 208, time: '15:00', title: '영어', icon: '🔤', done: false },
-                        { id: 209, time: '20:00', title: '블루라군 수영', icon: '🏊', done: false }
-                    ],
+                    tue: [{ id: 304, time: '16:00', title: '두팍', icon: '🧩', done: false }],
+                    wed: [{ id: 305, time: '15:00', title: '영어학원', icon: '🔤', done: false }],
+                    thu: [{ id: 306, time: '16:00', title: '두팍', icon: '🧩', done: false }],
+                    fri: [{ id: 307, time: '15:00', title: '영어학원', icon: '🔤', done: false }],
                     wknd: []
                 },
-                todos: [
-                    { id: 11, text: '눈높이 학습지 2장 풀기', completed: true, rewarded: true, badge: '🔥' },
-                    { id: 12, text: '수영 가방 미리 챙겨두기', completed: false, rewarded: false, badge: '🏊' },
-                    { id: 13, text: '장난감 정리하고 동화책 읽기', completed: false, rewarded: false, badge: '🐉' }
-                ],
                 books: [
-                    { id: 11, title: '공룡 대백과 탐험대', author: '자연과학연구회', date: '11/14', rating: '⭐⭐⭐⭐⭐' }
+                    { id: 1, title: 'why? 공룡 대탐험', author: '예림당', date: '11/10', rating: '⭐⭐⭐⭐⭐' },
+                    { id: 2, title: '포켓몬스터 대도감', author: '대원키즈', date: '11/15', rating: '⭐⭐⭐⭐⭐' }
                 ],
                 evolutions: [
-                    { minBooks: 0, name: 'Lv.1 파이리', emoji: '🦎', desc: '꼬리의 불꽃이 타오르는 용감한 친구!' },
-                    { minBooks: 3, name: 'Lv.2 리자드', emoji: '🔥', desc: '날카로운 발톱과 뜨거운 열정의 모험가!' },
-                    { minBooks: 6, name: 'Lv.3 리자몽', emoji: '🐉', desc: '하늘을 날아오르는 듬직한 수호자!' },
-                    { minBooks: 10, name: 'MAX 메가리자몽 X', emoji: '💠', desc: '푸른 불꽃을 뿜는 전설의 드래곤 마스터!' }
+                    { minBooks: 0, name: '파이리 (Lv.1)', emoji: '🦎', desc: '꼬리의 불꽃이 타오르는 씩씩한 파이리!' },
+                    { minBooks: 3, name: '리자몽 (Lv.2)', emoji: '🐲', desc: '하늘을 날아오르는 용감한 리자몽으로 진화했어요!' },
+                    { minBooks: 6, name: '메가리자몽X (Lv.3)', emoji: '🐉', desc: '푸른 불꽃이 빛나는 최강 메가진화 독서 챔피언!' }
                 ]
             }
         };
 
-        const villageNotice = {
-            text: '오늘 할 일 모두 완료하면 보너스 코인 +500원 추가 지급!',
-            bonusCoins: 500
-        };
-
         const familyWalkersData = [
             {
-                id: 'dad',
-                label: '아빠 (리자몽)',
-                badgeBg: 'bg-orange-200 border-orange-500 text-orange-950',
-                speech: '오늘도 힘차게 모험 떠나자!',
-                x: 24, y: 54, targetX: 38, targetY: 48, speed: 0.035,
-                svg: `<svg viewBox="0 0 72 80" class="w-14 h-16 drop-shadow-md">
-                    <polygon points="16,32 4,18 22,26" fill="#0d9488" stroke="#1e293b" stroke-width="2.2"/>
-                    <polygon points="56,32 68,18 50,26" fill="#0d9488" stroke="#1e293b" stroke-width="2.2"/>
-                    <ellipse cx="36" cy="52" rx="16" ry="18" fill="#f97316" stroke="#1e293b" stroke-width="2.5"/>
-                    <ellipse cx="36" cy="54" rx="10" ry="12" fill="#fef08a"/>
-                    <circle cx="36" cy="28" r="13" fill="#f97316" stroke="#1e293b" stroke-width="2.5"/>
-                    <polygon points="28,16 24,6 33,15" fill="#f97316" stroke="#1e293b" stroke-width="2"/>
-                    <polygon points="44,16 48,6 39,15" fill="#f97316" stroke="#1e293b" stroke-width="2"/>
-                    <circle cx="31" cy="27" r="2.5" fill="#1e293b"/><circle cx="41" cy="27" r="2.5" fill="#1e293b"/>
-                    <text x="56" y="64" font-size="14">🔥</text>
+                id: 'eunjun',
+                label: '은준 (메가리자몽)',
+                speech: '메가진화 파워로 출발!',
+                badgeBg: 'bg-sky-100 text-slate-900',
+                x: 42, y: 37, targetX: 46, targetY: 42, speed: 0.04,
+                svg: `<svg viewBox="0 0 84 84" class="w-16 h-16 drop-shadow">
+                    <!-- 날개 -->
+                    <path d="M24,34 L6,14 L18,38 L10,42 L26,46 Z" fill="#0f172a" stroke="#0284c7" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M60,34 L78,14 L66,38 L74,42 L58,46 Z" fill="#0f172a" stroke="#0284c7" stroke-width="2" stroke-linejoin="round"/>
+                    <!-- 꼬리 & 푸른 불꽃 -->
+                    <path d="M54,60 Q68,58 72,48" fill="none" stroke="#1e293b" stroke-width="5" stroke-linecap="round"/>
+                    <path d="M72,50 Q67,40 73,33 Q79,40 75,50 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="1.5"/>
+                    <!-- 튼튼한 다리 & 발톱 -->
+                    <rect x="29" y="58" width="9" height="14" rx="4" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+                    <rect x="46" y="58" width="9" height="14" rx="4" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+                    <path d="M28,72 L39,72" stroke="#f8fafc" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M45,72 L56,72" stroke="#f8fafc" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- 몸통 & 하늘색 배 -->
+                    <ellipse cx="42" cy="48" rx="15" ry="16" fill="#1e293b" stroke="#0f172a" stroke-width="2.5"/>
+                    <ellipse cx="42" cy="50" rx="9" ry="11" fill="#7dd3fc"/>
+                    <!-- 양팔 & 손 -->
+                    <path d="M28,42 L17,50 L21,54 L30,48" fill="#1e293b" stroke="#0f172a" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M56,42 L67,50 L63,54 L54,48" fill="#1e293b" stroke="#0f172a" stroke-width="2" stroke-linejoin="round"/>
+                    <!-- 머리 & 뿔 -->
+                    <polygon points="32,20 27,7 37,17" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+                    <polygon points="52,20 57,7 47,17" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+                    <circle cx="42" cy="26" r="12" fill="#1e293b" stroke="#0f172a" stroke-width="2.5"/>
+                    <circle cx="38" cy="24" r="2.3" fill="#ef4444"/><circle cx="46" cy="24" r="2.3" fill="#ef4444"/>
+                    <path d="M38,30 Q42,33 46,30" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
                 </svg>`
             },
             {
-                id: 'mom',
-                label: '엄마 (푸린)',
-                badgeBg: 'bg-pink-200 border-pink-500 text-pink-950',
-                speech: '우리 가족 최고 트레이너!',
-                x: 56, y: 62, targetX: 66, targetY: 54, speed: 0.03,
-                svg: `<svg viewBox="0 0 72 76" class="w-13 h-14 drop-shadow-md">
-                    <polygon points="18,26 12,10 28,20" fill="#f9a8d4" stroke="#1e293b" stroke-width="2.5"/>
-                    <polygon points="54,26 60,10 44,20" fill="#f9a8d4" stroke="#1e293b" stroke-width="2.5"/>
-                    <circle cx="36" cy="42" r="22" fill="#fbcfe8" stroke="#1e293b" stroke-width="2.5"/>
-                    <path d="M32,22 Q38,16 41,23 Q37,27 33,24" fill="none" stroke="#1e293b" stroke-width="2.2" stroke-linecap="round"/>
-                    <circle cx="28" cy="40" r="4.5" fill="#0284c7" stroke="#1e293b" stroke-width="1.5"/>
-                    <circle cx="27" cy="38.5" r="1.5" fill="#ffffff"/>
-                    <circle cx="44" cy="40" r="4.5" fill="#0284c7" stroke="#1e293b" stroke-width="1.5"/>
-                    <circle cx="43" cy="38.5" r="1.5" fill="#ffffff"/>
-                    <path d="M33,48 Q36,51 39,48" fill="none" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
+                id: 'dad',
+                label: '아빠 (리자몽)',
+                speech: '오늘도 힘차게 모험 떠나자!',
+                badgeBg: 'bg-orange-100 text-slate-900',
+                x: 35, y: 44, targetX: 39, targetY: 48, speed: 0.035,
+                svg: `<svg viewBox="0 0 84 84" class="w-16 h-16 drop-shadow">
+                    <!-- 날개 -->
+                    <path d="M25,34 L8,16 L18,40 L27,45 Z" fill="#0d9488" stroke="#1e293b" stroke-width="2.2" stroke-linejoin="round"/>
+                    <path d="M59,34 L76,16 L66,40 L57,45 Z" fill="#0d9488" stroke="#1e293b" stroke-width="2.2" stroke-linejoin="round"/>
+                    <!-- 꼬리 & 불꽃 -->
+                    <path d="M54,60 Q68,58 72,48" fill="none" stroke="#f97316" stroke-width="5.5" stroke-linecap="round"/>
+                    <path d="M72,50 Q67,40 73,33 Q79,40 75,50 Z" fill="#facc15" stroke="#ea580c" stroke-width="1.5"/>
+                    <!-- 다리 & 발 -->
+                    <rect x="29" y="58" width="9" height="14" rx="4" fill="#f97316" stroke="#1e293b" stroke-width="2.2"/>
+                    <rect x="46" y="58" width="9" height="14" rx="4" fill="#f97316" stroke="#1e293b" stroke-width="2.2"/>
+                    <path d="M28,72 L39,72" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M45,72 L56,72" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- 몸통 & 크림 배 -->
+                    <ellipse cx="42" cy="48" rx="15" ry="16" fill="#f97316" stroke="#1e293b" stroke-width="2.5"/>
+                    <ellipse cx="42" cy="50" rx="9.5" ry="11" fill="#fef3c7"/>
+                    <!-- 양팔 & 손 -->
+                    <path d="M28,42 L17,49 L21,53 L30,48" fill="#f97316" stroke="#1e293b" stroke-width="2.2" stroke-linejoin="round"/>
+                    <path d="M56,42 L67,49 L63,53 L54,48" fill="#f97316" stroke="#1e293b" stroke-width="2.2" stroke-linejoin="round"/>
+                    <!-- 머리 & 뿔 -->
+                    <polygon points="33,19 29,8 38,16" fill="#f97316" stroke="#1e293b" stroke-width="2"/>
+                    <polygon points="51,19 55,8 46,16" fill="#f97316" stroke="#1e293b" stroke-width="2"/>
+                    <circle cx="42" cy="26" r="12" fill="#f97316" stroke="#1e293b" stroke-width="2.5"/>
+                    <circle cx="38" cy="24" r="2.2" fill="#1e293b"/><circle cx="46" cy="24" r="2.2" fill="#1e293b"/>
+                    <path d="M38,30 Q42,33 46,30" fill="none" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
                 </svg>`
             },
             {
                 id: 'eunyul',
                 label: '은율 (이브이)',
-                badgeBg: 'bg-amber-200 border-amber-500 text-amber-950',
                 speech: '미션 깨고 코인 모아야지!',
-                x: 62, y: 46, targetX: 48, targetY: 42, speed: 0.04,
-                svg: `<svg viewBox="0 0 72 78" class="w-13 h-15 drop-shadow-md">
-                    <path d="M22,28 L12,6 L30,20 Z" fill="#b45309" stroke="#1e293b" stroke-width="2.3"/>
-                    <path d="M50,28 L60,6 L42,20 Z" fill="#b45309" stroke="#1e293b" stroke-width="2.3"/>
-                    <ellipse cx="36" cy="54" rx="13" ry="14" fill="#d97706" stroke="#1e293b" stroke-width="2.3"/>
-                    <ellipse cx="36" cy="46" rx="15" ry="7" fill="#fef3c7" stroke="#1e293b" stroke-width="2"/>
-                    <circle cx="36" cy="32" r="14" fill="#d97706" stroke="#1e293b" stroke-width="2.3"/>
-                    <circle cx="31" cy="31" r="2.6" fill="#1e293b"/><circle cx="41" cy="31" r="2.6" fill="#1e293b"/>
-                    <circle cx="26" cy="35" r="2.2" fill="#fb7185"/><circle cx="46" cy="35" r="2.2" fill="#fb7185"/>
+                badgeBg: 'bg-amber-100 text-slate-900',
+                x: 56, y: 41, targetX: 60, targetY: 45, speed: 0.042,
+                svg: `<svg viewBox="0 0 84 84" class="w-16 h-16 drop-shadow">
+                    <!-- 복슬복슬한 꼬리 -->
+                    <path d="M52,58 Q70,48 68,36 Q60,34 56,42 Q50,46 48,54 Z" fill="#d97706" stroke="#1e293b" stroke-width="2.2" stroke-linejoin="round"/>
+                    <path d="M62,38 Q68,36 68,42 Q63,44 60,41 Z" fill="#fef3c7"/>
+                    <!-- 네 발 (앞발 & 뒷발) -->
+                    <rect x="29" y="58" width="7" height="14" rx="3.5" fill="#d97706" stroke="#1e293b" stroke-width="2.2"/>
+                    <rect x="46" y="58" width="7" height="14" rx="3.5" fill="#d97706" stroke="#1e293b" stroke-width="2.2"/>
+                    <!-- 양팔(앞다리) -->
+                    <path d="M30,46 L21,53 L25,57 L33,51" fill="#d97706" stroke="#1e293b" stroke-width="2.2" stroke-linejoin="round"/>
+                    <path d="M52,46 L61,53 L57,57 L49,51" fill="#d97706" stroke="#1e293b" stroke-width="2.2" stroke-linejoin="round"/>
+                    <!-- 몸통 & 목털 -->
+                    <ellipse cx="41" cy="52" rx="12" ry="12" fill="#d97706" stroke="#1e293b" stroke-width="2.5"/>
+                    <path d="M28,42 Q35,50 41,45 Q47,50 54,42 Q50,36 41,37 Q32,36 28,42 Z" fill="#fef3c7" stroke="#1e293b" stroke-width="2"/>
+                    <!-- 큰 귀 & 머리 -->
+                    <polygon points="31,24 22,5 37,19" fill="#b45309" stroke="#1e293b" stroke-width="2.2"/>
+                    <polygon points="51,24 60,5 45,19" fill="#b45309" stroke="#1e293b" stroke-width="2.2"/>
+                    <circle cx="41" cy="29" r="13" fill="#f59e0b" stroke="#1e293b" stroke-width="2.5"/>
+                    <circle cx="36" cy="27" r="2.3" fill="#1e293b"/><circle cx="46" cy="27" r="2.3" fill="#1e293b"/>
+                    <circle cx="32" cy="32" r="2.6" fill="#fb7185"/><circle cx="50" cy="32" r="2.6" fill="#fb7185"/>
+                    <path d="M38,34 Q41,37 44,34" fill="none" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
                 </svg>`
             },
             {
-                id: 'eunjun',
-                label: '은준 (메가리자몽)',
-                badgeBg: 'bg-sky-200 border-sky-500 text-sky-950',
-                speech: '메가진화 파워로 출발!',
-                x: 42, y: 42, targetX: 28, targetY: 46, speed: 0.042,
-                svg: `<svg viewBox="0 0 76 80" class="w-14 h-16 drop-shadow-md">
-                    <polygon points="16,32 2,16 24,26" fill="#0284c7" stroke="#0f172a" stroke-width="2.2"/>
-                    <polygon points="60,32 74,16 52,26" fill="#0284c7" stroke="#0f172a" stroke-width="2.2"/>
-                    <ellipse cx="38" cy="52" rx="16" ry="18" fill="#1e293b" stroke="#0f172a" stroke-width="2.5"/>
-                    <ellipse cx="38" cy="54" rx="10" ry="12" fill="#7dd3fc"/>
-                    <circle cx="38" cy="27" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="2.5"/>
-                    <polygon points="28,15 22,5 33,14" fill="#38bdf8" stroke="#0f172a" stroke-width="1.8"/>
-                    <polygon points="48,15 54,5 43,14" fill="#38bdf8" stroke="#0f172a" stroke-width="1.8"/>
-                    <circle cx="33" cy="26" r="2.5" fill="#ef4444"/><circle cx="43" cy="26" r="2.5" fill="#ef4444"/>
-                    <text x="58" y="64" font-size="14">💠</text>
+                id: 'mom',
+                label: '엄마 (푸린)',
+                speech: '우리 가족 최고 트레이너!',
+                badgeBg: 'bg-pink-100 text-slate-900',
+                x: 52, y: 50, targetX: 48, targetY: 54, speed: 0.032,
+                svg: `<svg viewBox="0 0 84 84" class="w-16 h-16 drop-shadow">
+                    <!-- 귀 -->
+                    <polygon points="27,26 21,9 37,20" fill="#f9a8d4" stroke="#1e293b" stroke-width="2.5"/>
+                    <polygon points="57,26 63,9 47,20" fill="#f9a8d4" stroke="#1e293b" stroke-width="2.5"/>
+                    <!-- 아장아장 발 -->
+                    <ellipse cx="32" cy="67" rx="7" ry="4.5" fill="#f472b6" stroke="#1e293b" stroke-width="2.2"/>
+                    <ellipse cx="52" cy="67" rx="7" ry="4.5" fill="#f472b6" stroke="#1e293b" stroke-width="2.2"/>
+                    <!-- 동글동글 몸통 -->
+                    <circle cx="42" cy="44" r="22" fill="#fbcfe8" stroke="#1e293b" stroke-width="2.5"/>
+                    <!-- 양손 (짧고 귀여운 팔) -->
+                    <ellipse cx="19" cy="45" rx="6" ry="4.5" transform="rotate(-20 19 45)" fill="#fbcfe8" stroke="#1e293b" stroke-width="2.2"/>
+                    <ellipse cx="65" cy="45" rx="6" ry="4.5" transform="rotate(20 65 45)" fill="#fbcfe8" stroke="#1e293b" stroke-width="2.2"/>
+                    <!-- 앞머리 말림 & 큰 눈 -->
+                    <path d="M38,24 Q44,20 46,26 Q42,30 39,27" fill="none" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="34" cy="41" r="4.5" fill="#0284c7"/><circle cx="33" cy="39.5" r="1.5" fill="#ffffff"/>
+                    <circle cx="50" cy="41" r="4.5" fill="#0284c7"/><circle cx="49" cy="39.5" r="1.5" fill="#ffffff"/>
+                    <path d="M39,49 Q42,52 45,49" fill="none" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
                 </svg>`
             }
         ];
 
-        const chatMessages = [
-            { sender: '엄마', avatar: '🎀', text: '은율이 영어학원 가기 전에 간식 챙겨 먹었니?', time: '오후 3:40', color: 'bg-pink-100 border-pink-300' },
-            { sender: '은율', avatar: '🦊', text: '네 엄마! 숙제도 다 챙겼어요~', time: '오후 3:45', color: 'bg-amber-100 border-amber-300' },
-            { sender: '아빠', avatar: '🧢', text: '퇴근할 때 맛있는 간식 사갈게~ 미션 화이팅!', time: '오후 5:10', color: 'bg-blue-100 border-blue-300' }
-        ];
-
         const calendarEvents = {
             '2026-11-16': [
-                { id: 1, type: 'kid', title: '은율 영어학원 / 은준 수영' },
-                { id: 2, type: 'family', title: '저녁 가족 보드게임 데이' }
+                { id: 1, type: 'kid', title: '은준 눈높이 센터 (13:00)' },
+                { id: 2, type: 'kid', title: '은율 영어학원 (16:30)' }
             ],
             '2026-11-21': [
-                { id: 3, type: 'trip', title: '강원도 속초 & 설악산 가족 나들이' }
+                { id: 3, type: 'trip', title: '강원도 속초·설악산 가족 여행 출발!' }
             ]
         };
 
+        const chatMessages = [
+            { sender: '엄마', avatar: '🎀', text: '은율아 은준아 오늘도 즐겁게 학원 다녀오자!', time: '오전 08:30', color: 'bg-pink-100 border-pink-300' },
+            { sender: '아빠', avatar: '🧢', text: '퇴근할 때 맛있는 간식 사갈게~ 미션 화이팅!', time: '오전 10:15', color: 'bg-blue-100 border-blue-300' }
+        ];
+
         const regionDefinitions = {
             domestic: [
-                { key: 'seoul', label: '서울', svgId: 'kr-region-seoul', max: 25, color: 'bg-rose-400', zoom: { scale: 2.1, x: 95, y: 110 } },
-                { key: 'incheon', label: '인천', svgId: 'kr-region-incheon', max: 11, color: 'bg-sky-400', zoom: { scale: 2.1, x: 135, y: 110 } },
-                { key: 'gyeonggi', label: '경기', svgId: 'kr-region-gyeonggi', max: 31, color: 'bg-emerald-400', zoom: { scale: 1.9, x: 85, y: 105 } },
-                { key: 'gangwon', label: '강원', svgId: 'kr-region-gangwon', max: 18, color: 'bg-lime-500', zoom: { scale: 1.85, x: -35, y: 115 } },
-                { key: 'chungbuk', label: '충북', svgId: 'kr-region-chungbuk', max: 11, color: 'bg-amber-400', zoom: { scale: 2.0, x: 25, y: 35 } },
-                { key: 'chungnam', label: '충남', svgId: 'kr-region-chungnam', max: 15, color: 'bg-orange-400', zoom: { scale: 2.0, x: 115, y: 35 } },
-                { key: 'daejeon', label: '대전', svgId: 'kr-region-daejeon', max: 5, color: 'bg-purple-400', zoom: { scale: 2.2, x: 65, y: 10 } },
-                { key: 'sejong', label: '세종', svgId: 'kr-region-sejong', max: 1, color: 'bg-blue-400', zoom: { scale: 2.2, x: 75, y: 35 } },
-                { key: 'jeonbuk', label: '전북', svgId: 'kr-region-jeonbuk', max: 14, color: 'bg-pink-400', zoom: { scale: 2.0, x: 85, y: -35 } },
-                { key: 'jeonnam', label: '전남·광주', svgId: 'kr-region-jeonnam', max: 27, color: 'bg-teal-400', zoom: { scale: 1.9, x: 95, y: -95 } },
-                { key: 'gyeongbuk', label: '경북', svgId: 'kr-region-gyeongbuk', max: 22, color: 'bg-indigo-400', zoom: { scale: 1.85, x: -65, y: 10 } },
-                { key: 'daegu', label: '대구', svgId: 'kr-region-daegu', max: 9, color: 'bg-red-400', zoom: { scale: 2.2, x: -55, y: -35 } },
-                { key: 'gyeongnam', label: '경남', svgId: 'kr-region-gyeongnam', max: 18, color: 'bg-cyan-500', zoom: { scale: 1.95, x: -35, y: -85 } },
-                { key: 'busan', label: '부산', svgId: 'kr-region-busan', max: 16, color: 'bg-blue-500', zoom: { scale: 2.2, x: -95, y: -95 } },
-                { key: 'ulsan', label: '울산', svgId: 'kr-region-ulsan', max: 5, color: 'bg-violet-400', zoom: { scale: 2.2, x: -105, y: -65 } },
-                { key: 'jeju', label: '제주', svgId: 'kr-region-jeju', max: 2, color: 'bg-pink-500', zoom: { scale: 2.2, x: 115, y: -155 } }
+                { key: 'seoul', label: '서울특별시', svgId: 'kr-region-seoul', max: 25, color: 'bg-rose-400', zoom: { scale: 2.1, x: 75, y: 120 } },
+                { key: 'gyeonggi', label: '경기도', svgId: 'kr-region-gyeonggi', max: 31, color: 'bg-amber-400', zoom: { scale: 1.9, x: 70, y: 115 } },
+                { key: 'incheon', label: '인천광역시', svgId: 'kr-region-incheon', max: 10, color: 'bg-sky-400', zoom: { scale: 2.1, x: 105, y: 115 } },
+                { key: 'gangwon', label: '강원특별자치도', svgId: 'kr-region-gangwon', max: 18, color: 'bg-emerald-400', zoom: { scale: 1.8, x: -30, y: 120 } },
+                { key: 'chungbuk', label: '충청북도', svgId: 'kr-region-chungbuk', max: 11, color: 'bg-orange-400', zoom: { scale: 1.9, x: 15, y: 50 } },
+                { key: 'chungnam', label: '충청남도', svgId: 'kr-region-chungnam', max: 15, color: 'bg-yellow-400', zoom: { scale: 1.9, x: 85, y: 50 } },
+                { key: 'gyeongbuk', label: '경상북도', svgId: 'kr-region-gyeongbuk', max: 22, color: 'bg-indigo-400', zoom: { scale: 1.8, x: -55, y: 20 } },
+                { key: 'jeonbuk', label: '전북특별자치도', svgId: 'kr-region-jeonbuk', max: 14, color: 'bg-pink-400', zoom: { scale: 1.9, x: 65, y: -25 } },
+                { key: 'jeonnam', label: '전라남도', svgId: 'kr-region-jeonnam', max: 22, color: 'bg-teal-400', zoom: { scale: 1.8, x: 75, y: -85 } },
+                { key: 'gyeongnam', label: '경상남도', svgId: 'kr-region-gyeongnam', max: 18, color: 'bg-cyan-400', zoom: { scale: 1.8, x: -35, y: -75 } },
+                { key: 'busan', label: '부산광역시', svgId: 'kr-region-busan', max: 16, color: 'bg-blue-400', zoom: { scale: 2.1, x: -75, y: -75 } },
+                { key: 'jeju', label: '제주특별자치도', svgId: 'kr-region-jeju', max: 2, color: 'bg-fuchsia-400', zoom: { scale: 2.2, x: 80, y: -165 } }
             ],
             international: [
-                { key: 'as', label: '아시아', svgId: 'wd-region-as', max: 48, color: 'bg-emerald-500', zoom: { scale: 1.75, x: -120, y: 55 } },
-                { key: 'eu', label: '유럽', svgId: 'wd-region-eu', max: 44, color: 'bg-rose-400', zoom: { scale: 2.1, x: -15, y: 85 } },
-                { key: 'na', label: '북아메리카', svgId: 'wd-region-na', max: 23, color: 'bg-sky-500', zoom: { scale: 1.75, x: 165, y: 65 } },
-                { key: 'sa', label: '남아메리카', svgId: 'wd-region-sa', max: 12, color: 'bg-amber-500', zoom: { scale: 1.9, x: 135, y: -75 } },
-                { key: 'af', label: '아프리카', svgId: 'wd-region-af', max: 54, color: 'bg-orange-400', zoom: { scale: 1.85, x: -15, y: -25 } },
-                { key: 'oc', label: '오세아니아', svgId: 'wd-region-oc', max: 14, color: 'bg-indigo-400', zoom: { scale: 2.0, x: -185, y: -85 } }
+                { key: 'asia', label: '아시아', svgId: 'wd-region-as', max: 48, color: 'bg-indigo-400', zoom: { scale: 1.7, x: -130, y: 40 } },
+                { key: 'europe', label: '유럽', svgId: 'wd-region-eu', max: 44, color: 'bg-pink-400', zoom: { scale: 1.9, x: -10, y: 75 } },
+                { key: 'na', label: '북아메리카', svgId: 'wd-region-na', max: 23, color: 'bg-amber-400', zoom: { scale: 1.7, x: 165, y: 65 } },
+                { key: 'sa', label: '남아메리카', svgId: 'wd-region-sa', max: 12, color: 'bg-emerald-400', zoom: { scale: 1.8, x: 120, y: -75 } },
+                { key: 'africa', label: '아프리카', svgId: 'wd-region-af', max: 54, color: 'bg-orange-400', zoom: { scale: 1.7, x: -10, y: -35 } },
+                { key: 'oceania', label: '오세아니아', svgId: 'wd-region-oc', max: 14, color: 'bg-teal-400', zoom: { scale: 1.9, x: -175, y: -85 } }
             ]
         };
 
         const travelPlaces = {
             domestic: [
-                { id: 1, name: '춘천 남이섬 & 레고랜드', subregion: 'gangwon', status: 'visited', memo: '단풍 구경과 놀이기구!', x: 54, y: 20 },
-                { id: 2, name: '강릉 경포대 & 양양 서피비치', subregion: 'gangwon', status: 'visited', memo: '동해바다 모래놀이', x: 64, y: 24 },
-                { id: 3, name: '경주 불국사 & 첨성대', subregion: 'gyeongbuk', status: 'visited', memo: '역사 탐험 스탬프 완료', x: 64, y: 51 },
-                { id: 4, name: '부산 해운대 아쿠아리움', subregion: 'busan', status: 'visited', memo: '상어와 바다거북 구경', x: 67, y: 65 },
-                { id: 5, name: '제주 한라산 & 우도', subregion: 'jeju', status: 'visited', memo: '땅콩 아이스크림 최고!', x: 36, y: 88 },
-                { id: 6, name: '서울 롯데월드 아쿠아리움', subregion: 'seoul', status: 'wishlist', memo: '겨울방학 버킷리스트', x: 39, y: 23 }
+                { id: 1, name: '강릉 경포해변', subregion: 'gangwon', status: 'visited', memo: '파도타기와 순두부 젤라또!', x: 64, y: 24 },
+                { id: 2, name: '제주 성산일출봉', subregion: 'jeju', status: 'visited', memo: '한라봉 주스 최고!', x: 37, y: 84 },
+                { id: 3, name: '경주 불국사', subregion: 'gyeongbuk', status: 'visited', memo: '신라 역사 탐험', x: 66, y: 47 },
+                { id: 4, name: '인천 송도 센트럴파크', subregion: 'incheon', status: 'visited', memo: '가족 수상보트 타기', x: 32, y: 23 },
+                { id: 5, name: '여수 해상케이블카', subregion: 'jeonnam', status: 'wishlist', memo: '다음 방학에 꼭 가보자!', x: 43, y: 67 }
             ],
             international: [
-                { id: 101, name: '일본 도쿄 디즈니랜드 & 후지산', subregion: 'as', status: 'visited', memo: '첫 해외 가족여행!', x: 83, y: 31 },
-                { id: 102, name: '프랑스 파리 에펠탑', subregion: 'eu', status: 'visited', memo: '야경이 반짝반짝!', x: 48, y: 25 },
-                { id: 103, name: '미국 뉴욕 자유의 여신상', subregion: 'na', status: 'wishlist', memo: '꼭 가보고 싶은 곳', x: 24, y: 31 }
+                { id: 101, name: '일본 도쿄 디즈니랜드', subregion: 'asia', status: 'visited', memo: '미키마우스 퍼레이드!', x: 86, y: 33 },
+                { id: 102, name: '프랑스 파리 에펠탑', subregion: 'europe', status: 'wishlist', memo: '반짝이는 야경 보러 가자!', x: 48, y: 28 },
+                { id: 103, name: '미국 하와이 와이키키', subregion: 'na', status: 'wishlist', memo: '바다거북 스노클링', x: 14, y: 44 }
             ]
         };
-
-        // ==========================================
-        // 2. 고화질 2.5D 아이소메트릭 포켓몬 마을 AI 이미지 자동 오버레이 (지원 환경)
-        // ==========================================
-        async function loadHighResVillageArtwork() {
-            const imgEl = document.getElementById('village-generated-img');
-            if (!imgEl) return;
-
-            const prompt = "Isometric 2.5D top-down hand-drawn watercolor illustration of a cozy cute Pokemon town square, warm cream cobblestone plaza in the center with a round Pokeball water fountain, rectangular flower beds, wooden benches, diagonal crosswalk roads, blue roof MART shop, mint roof greenhouse, warm brick roof BAKERY townhouse, red and white Pokeball cafe parasols, soft pastel trees, charming storybook game diorama art style, no text labels except MART and BAKERY";
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=${apiKey}`;
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                        generationConfig: {
-                            responseModalities: ['IMAGE'],
-                            imageConfig: { aspectRatio: '16:9' }
-                        }
-                    })
-                });
-                if (!response.ok) return;
-                const result = await response.json();
-                const part = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
-                if (part?.inlineData?.data) {
-                    imgEl.src = `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
-                    imgEl.classList.remove('hidden');
-                    requestAnimationFrame(() => imgEl.classList.remove('opacity-0'));
-                }
-            } catch (e) {
-                // GitHub Pages 등 API 키 없는 환경에서는 내장 2.5D SVG 일러스트가 자연스럽게 유지됨
-            }
-        }
 
         // ==========================================
         // 3. 사운드 & 진동 효과
@@ -2337,6 +2124,74 @@
         // ==========================================
         // 10. 실시간 시계 & 초기 렌더링 실행
         // ==========================================
+        // 10. 수채화 마을 일러스트 생성, 실시간 시계 & 초기 렌더링 실행
+        // ==========================================
+        async function generateWatercolorVillageArtwork(forceRefresh = false) {
+            const imgEl = document.getElementById('village-ai-artwork');
+            const loadingEl = document.getElementById('village-art-loading');
+            const regenBtn = document.getElementById('regen-village-art-btn');
+            if (!imgEl || !loadingEl) return;
+
+            const cacheKey = 'poke_village_watercolor_art_v2';
+            if (!forceRefresh) {
+                try {
+                    const cached = localStorage.getItem(cacheKey);
+                    if (cached) {
+                        imgEl.src = cached;
+                        imgEl.classList.remove('hidden');
+                        requestAnimationFrame(() => imgEl.classList.remove('opacity-0'));
+                        loadingEl.classList.add('hidden');
+                        return;
+                    }
+                } catch (e) {}
+            }
+
+            loadingEl.classList.remove('hidden');
+            if (regenBtn) regenBtn.disabled = true;
+
+            const prompt = "A cozy 2.5D isometric storybook watercolor and ink illustration of a charming Pokemon-inspired town square, hand-drawn soft pastel watercolor palette on warm cream paper texture, delicate brown ink outlines. In the center is a diamond-shaped cobblestone plaza with a two-tier stone Pokeball fountain, four rectangular wooden flower beds filled with pink and yellow blossoms, wooden park benches, classic street lamps, and cute tiny Bulbasaur, Chikorita, and Eevee relaxing. Diagonal crosswalk streets intersect around the plaza. Surrounding buildings include a blue-roofed MART shop on the upper left, a mint-roofed greenhouse house in the top center, and warm terracotta-roofed European townhouses with a BAKERY and outdoor red-and-white Pokeball parasol cafe tables on the right. Soft sunlit atmosphere, no UI text overlays, high-detail hand-painted anime game background art.";
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ role: 'user', parts: [{ text: prompt }] }],
+                generationConfig: {
+                    responseModalities: ['IMAGE'],
+                    imageConfig: { aspectRatio: "16:9" }
+                }
+            };
+
+            const delays = [1000, 2000, 4000];
+            for (let attempt = 0; attempt <= delays.length; attempt++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    const result = await response.json();
+                    const part = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+                    if (part && part.inlineData?.data) {
+                        const dataUrl = `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
+                        imgEl.src = dataUrl;
+                        imgEl.classList.remove('hidden');
+                        requestAnimationFrame(() => imgEl.classList.remove('opacity-0'));
+                        loadingEl.classList.add('hidden');
+                        try { localStorage.setItem(cacheKey, dataUrl); } catch (e) {}
+                        if (regenBtn) regenBtn.disabled = false;
+                        return;
+                    }
+                } catch (err) {
+                    if (attempt < delays.length) {
+                        await new Promise(r => setTimeout(r, delays[attempt]));
+                    }
+                }
+            }
+
+            if (regenBtn) regenBtn.disabled = false;
+        }
+
         function updateLiveClock() {
             const now = new Date();
             const hh = String(now.getHours()).padStart(2, '0');
@@ -2354,7 +2209,7 @@
             updateAllSummaryOverlays();
             initVillageWalkers();
             setActiveView('home');
-            loadHighResVillageArtwork();
+            generateWatercolorVillageArtwork(false);
         });
     </script>
 </body>
